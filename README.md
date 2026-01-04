@@ -16,7 +16,7 @@ This project implements an end-to-end data engineering and machine learning pipe
 The pipeline follows a modular and automated flow, from raw data ingestion to ML-driven insights:
 
 <p align="center">
-  <img src="snowflake_data_project/architecture.png" alt="Project Architecture" width="1000">
+  <img src="architecture.png" alt="Project Architecture" width="1000">
 </p>
 
 1. **Data Warehousing:** Snowflake serves as the centralized source of truth.
