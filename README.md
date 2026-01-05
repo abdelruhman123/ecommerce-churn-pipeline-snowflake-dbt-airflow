@@ -44,6 +44,21 @@ The pipeline follows a modular and automated flow, from raw data ingestion to ML
 
 ---
 
+## 📊 Business Insights & Risk Analysis
+
+The final stage of the pipeline merges customer metadata with machine learning predictions to categorize users based on their churn risk.
+
+### Risk Categorization Logic:
+- **Critical**: Churn Probability > 80% (Immediate intervention required).
+- **At Risk**: Churn Probability 50% - 80% (Targeted marketing recommended).
+- **Safe**: Churn Probability < 50% (Standard engagement).
+
+### Sample Output (from Snowflake):
+| Customer Name | Country | Churn Probability | Risk Level |
+|---------------|---------|-------------------|------------|
+| Ann Aguirre   | Turks and Caicos | 74% | At Risk |
+| Billy Cooper  | Ukraine | 64% | At Risk |
+
 ## 📁 Project Structure
 ```text
 ├── airflow/dags/       # Airflow DAG definitions for orchestration

@@ -29,8 +29,10 @@ features = ['TOTAL_ORDERS', 'TOTAL_SPENT', 'AVG_SPENT']
 X = df[features]
 y = df['TARGET_CHURN']
 
+# (Split)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
+# Scaling
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
@@ -38,14 +40,22 @@ X_test_scaled = scaler.transform(X_test)
 model = LogisticRegression(class_weight='balanced', random_state=42)
 model.fit(X_train_scaled, y_train)
 
+# (Predictions)
 y_pred = model.predict(X_test_scaled)
+y_prob = model.predict_proba(X_test_scaled)[:, 1] 
+
 print(f"Logistic Regression Accuracy: {accuracy_score(y_test, y_pred):.2f}")
 print(classification_report(y_test, y_pred))
 
 results_df = X_test.copy()
+
+results_df['CUSTOMER_ID'] = df.loc[X_test.index, 'CUSTOMER_ID']
+
 results_df['ACTUAL_CHURN'] = y_test.values
 results_df['PREDICTED_CHURN'] = y_pred
+results_df['CHURN_PROBABILITY'] = y_prob  # <--- ضفنا العمود ده عشان dbt
 results_df['PREDICTION_DATE'] = datetime.now()
+
 results_df.columns = [col.upper() for col in results_df.columns]
 
 try:
@@ -56,10 +66,12 @@ try:
         database='FINANCE_DB',
         schema='RAW',
         auto_create_table=True,
-        overwrite=True
+        overwrite=True 
     )
     if success:
         print(f"Successfully uploaded {nrows} rows to CHURN_PREDICTIONS table in Snowflake!")
+        
+        print(results_df[['CUSTOMER_ID', 'CHURN_PROBABILITY']].head())
 except Exception as e:
     print(f"Error while uploading to Snowflake: {e}")
 

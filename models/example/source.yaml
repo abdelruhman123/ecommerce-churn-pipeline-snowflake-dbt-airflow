@@ -2,8 +2,8 @@ version: 2
 
 sources:
   - name: raw_data
-    database: FINANCE_DB   # Your Snowflake database
-    schema: RAW            # Schema where raw data is stored
+    database: FINANCE_DB   
+    schema: RAW            
     tables:
       - name: customers
       - name: orders
