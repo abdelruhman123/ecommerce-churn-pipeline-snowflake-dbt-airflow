@@ -53,7 +53,7 @@ results_df['CUSTOMER_ID'] = df.loc[X_test.index, 'CUSTOMER_ID']
 
 results_df['ACTUAL_CHURN'] = y_test.values
 results_df['PREDICTED_CHURN'] = y_pred
-results_df['CHURN_PROBABILITY'] = y_prob  # <--- ضفنا العمود ده عشان dbt
+results_df['CHURN_PROBABILITY'] = y_prob  
 results_df['PREDICTION_DATE'] = datetime.now()
 
 results_df.columns = [col.upper() for col in results_df.columns]
